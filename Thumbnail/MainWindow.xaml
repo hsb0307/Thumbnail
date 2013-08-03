@@ -1,0 +1,112 @@
+﻿<Window x:Class="Thumbnail.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="对某一目录下的图片文件进行缩略处理" Height="550" Width="1024">
+    <DockPanel  LastChildFill="True" >
+        <Menu DockPanel.Dock="Top" Name="mainMenu">
+            <MenuItem Header="缩略图"  >
+                <MenuItem Header="缩略"   Name="itemTemplate" />
+                <MenuItem Header="ItemsPanel" Name="itemItemsPanel"    />
+                <MenuItem Header="获取所有文件" Name="miGetAll"  Click="miGetAll_Click"  />
+            </MenuItem>
+        </Menu>
+        <ToolBarTray DockPanel.Dock="Top">
+
+           
+            <ToolBar BandIndex="1">
+                <TextBlock VerticalAlignment="Center" >文件夹：</TextBlock>
+                <TextBox Name="txtFolder" MinWidth="200" Text=""></TextBox>
+                <Button Name="txtSelectFolder" Content="选择文件夹" Click="txtSelectFolder_Click" ></Button>
+            </ToolBar>
+           
+            <ToolBar BandIndex="2">
+                <TextBlock VerticalAlignment="Center" >宽度：</TextBlock>  
+                <TextBox Name="txtWidth" MinWidth="60" Text="64"></TextBox>
+                <Button Name="btnWidth64" Content="64" ></Button>
+                <Button Name="btnWidth400" Content="400" ></Button>
+            </ToolBar>
+            <ToolBar BandIndex="3">
+                <TextBlock VerticalAlignment="Center" >高度：</TextBlock>
+                <TextBox Name="txtHeight" MinWidth="60" Text="" Width="100"></TextBox>
+                
+            </ToolBar>
+
+            <ToolBar BandIndex="4">
+
+                <Button Height="48" Width="48" Click="Button_Click">
+                    <Image  Source="/Thumbnail;component/images/zoomin.png" ToolTip="点击我，进行缩略图处理"  />
+                </Button>
+                <Button Height="48" Width="48" Name="btnDelete" Click="btnDelete_Click">
+                    <Image  Source="/Thumbnail;component/images/delete.png" ToolTip="点击我，删除缩略图"  />
+                </Button>
+            </ToolBar>
+
+        </ToolBarTray>
+
+        <StatusBar DockPanel.Dock="Bottom">Status</StatusBar>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width='1*'/>
+                <ColumnDefinition Width='Auto'/>
+                <ColumnDefinition Width='2*'/>
+            </Grid.ColumnDefinitions>
+            <!--<Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>-->
+            <TreeView Grid.Column="0"></TreeView>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   ShowsPreview="True" Width="6" ></GridSplitter>
+            <TabControl Name="tabControl" Grid.Column="2">
+                <TabItem Name="tabItem1" Header="TabItem1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBox Name="txtHtml" AcceptsReturn="True"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ></TextBox>
+                        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" ShowsPreview="True" Height="6"></GridSplitter>
+                        <TextBox Name="txtUrls" Grid.Row="2" AcceptsReturn="True"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ></TextBox>
+                    </Grid>
+
+                </TabItem>
+                
+                
+                <TabItem Name="tabItem4" Header="tabItem4">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ItemsControl VerticalAlignment="Top">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding}" Content="{Binding}" CommandTarget="{Binding ElementName=EditRegion}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <x:Static Member="ApplicationCommands.Cut" />
+                            <x:Static Member="ApplicationCommands.Copy" />
+                            <x:Static Member="ApplicationCommands.Paste" />
+                        </ItemsControl>
+                        <TextBox Name="EditRegion" Grid.Row="1" />
+                    </Grid>
+                </TabItem>
+                
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</Window>
+
+ <!--
+1.把选择备选图片->属性->复制到输出目录：不复制；生成操作：Resource
+2.Image 控件：Source="/Dashboard.Base;component/1.png"
+/Dashboard.Base：图片所对应的程序集名称（工程名称）
+component/1.png：component固定前缀，/后面是图片相对路径 如component/xx/ww/1.png
+这样我们在编译后的bin目录下可以看到，没有图片文件，因为上面我们是把图片做成资源文件了，图片等资源文件会自动编译到dll或者exe里面了。  
+ -->
